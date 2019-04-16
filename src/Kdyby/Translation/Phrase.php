@@ -20,8 +20,9 @@ use Nette;
  *
  * @author Filip Procházka <filip@prochazka.su>
  */
-class Phrase extends Nette\Object
+class Phrase
 {
+    use Nette\SmartObject;
 
 	/**
 	 * @var string

@@ -20,9 +20,10 @@ use Tracy;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class PrefixedTranslator extends Nette\Object implements ITranslator
+class PrefixedTranslator implements ITranslator
 {
 
+    use Nette\SmartObject;
 	/**
 	 * @var \Nette\Localization\ITranslator
 	 */

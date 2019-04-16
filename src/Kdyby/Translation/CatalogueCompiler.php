@@ -21,8 +21,9 @@ use Symfony\Component\Translation\MessageCatalogueInterface;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class CatalogueCompiler extends Nette\Object
+class CatalogueCompiler
 {
+    use Nette\SmartObject;
 
 	/**
 	 * @var \Nette\Caching\Cache

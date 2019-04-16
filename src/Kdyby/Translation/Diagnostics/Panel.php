@@ -28,8 +28,9 @@ use Tracy\IBarPanel;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class Panel extends Nette\Object implements IBarPanel
+class Panel implements IBarPanel
 {
+    use Nette\SmartObject;
 
 	/**
 	 * @var \Kdyby\Translation\Translator

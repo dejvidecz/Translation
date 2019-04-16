@@ -18,8 +18,9 @@ use Nette;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class AcceptHeaderResolver extends Nette\Object implements Kdyby\Translation\IUserLocaleResolver
+class AcceptHeaderResolver implements Kdyby\Translation\IUserLocaleResolver
 {
+    use Nette\SmartObject;
 
 	/**
 	 * @var Nette\Http\Request

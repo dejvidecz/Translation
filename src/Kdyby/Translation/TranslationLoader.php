@@ -24,8 +24,9 @@ use Symfony\Component\Translation\MessageCatalogue;
  * @author Michel Salib <michelsalib@hotmail.com>
  * @author Filip Procházka <filip@prochazka.su>
  */
-class TranslationLoader extends Nette\Object implements IResourceLoader
+class TranslationLoader implements IResourceLoader
 {
+    use Nette\SmartObject;
 
 	/**
 	 * Loaders used for import.

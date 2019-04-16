@@ -19,8 +19,9 @@ use Nette;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class TemplateHelpers extends Nette\Object
+class TemplateHelpers
 {
+    use Nette\SmartObject;
 
 	/**
 	 * @var ITranslator

@@ -20,8 +20,9 @@ use Symfony\Component\Translation\MessageCatalogueInterface;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class CatalogueFactory extends Nette\Object
+class CatalogueFactory
 {
+    use Nette\SmartObject;
 
 	/**
 	 * @var FallbackResolver

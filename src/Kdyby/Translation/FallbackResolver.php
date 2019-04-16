@@ -18,8 +18,9 @@ use Nette;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class FallbackResolver extends Nette\Object
+class FallbackResolver
 {
+    use Nette\SmartObject;
 
 	/**
 	 * @var array

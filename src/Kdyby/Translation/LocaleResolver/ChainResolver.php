@@ -19,8 +19,9 @@ use Nette;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class ChainResolver extends Nette\Object implements IUserLocaleResolver
+class ChainResolver implements IUserLocaleResolver
 {
+    use Nette\SmartObject;
 
 	/**
 	 * @var array|IUserLocaleResolver[]

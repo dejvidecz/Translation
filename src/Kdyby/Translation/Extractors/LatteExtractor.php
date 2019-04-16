@@ -24,8 +24,9 @@ use Symfony\Component\Translation\MessageCatalogue;
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class LatteExtractor extends Nette\Object implements ExtractorInterface
+class LatteExtractor implements ExtractorInterface
 {
+    use Nette\SmartObject;
 
 	/**
 	 * @var string
