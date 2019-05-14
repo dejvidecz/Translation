@@ -29,6 +29,8 @@ use Symfony\Component\Translation\Translator as BaseTranslator;
 class Translator extends BaseTranslator implements ITranslator
 {
 
+    public static $translateMode = false;
+
 	/**
 	 * @var IUserLocaleResolver
 	 */

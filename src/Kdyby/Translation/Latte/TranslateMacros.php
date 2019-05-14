@@ -18,7 +18,6 @@ use Latte\PhpWriter;
 use Latte\Macros\MacroSet;
 
 
-
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
@@ -36,7 +35,10 @@ class TranslateMacros extends MacroSet
         return $me;
     }
 
-
+    public static function renderCurr($node)
+    {
+        return $node;
+    }
 
     /**
      * {_$var |modifiers}
@@ -46,6 +48,8 @@ class TranslateMacros extends MacroSet
      */
     public function macroTranslate(MacroNode $node, PhpWriter $writer)
     {
+
+
         if (class_exists('Latte\Runtime\FilterInfo')) { // Nette 2.4
             if ($node->closing) {
                 if (substr($node->modifiers, -7) === '|escape') {
@@ -55,10 +59,27 @@ class TranslateMacros extends MacroSet
 
             } elseif ($node->empty = ($node->args !== '')) {
                 if ($this->containsOnlyOneWord($node)) {
-                    return $writer->write('echo %modify(call_user_func($this->filters->translate, %node.word))');
+                    return $writer->write(
+                        'if (\Kdyby\Translation\Translator::$translateMode) {' .
+                        'echo "<span class=\"translate-plugin\" data-key=\"%node.word\">" . %modify(call_user_func($this->filters->translate, %node.word)) . "</span>";' .
+                        '}else{
+                        echo %modify(call_user_func($this->filters->translate, %node.word)) ;
+                        }'
+                    );
+
+//                    return $writer->write('echo %modify(call_user_func($this->filters->translate, %node.word))');
 
                 } else {
-                    return $writer->write('echo %modify(call_user_func($this->filters->translate, %node.word, %node.args))');
+
+                    return $writer->write(
+                        'if (\Kdyby\Translation\Translator::$translateMode) {' .
+                        'echo "<span class=\"translate-plugin\" data-key=\"%node.word\">" . %modify(call_user_func($this->filters->translate, %node.word, %node.args)) . "</span>";' .
+                        '}else{
+                        echo %modify(call_user_func($this->filters->translate, %node.word, %node.args));
+                        }'
+                    );
+
+//                    return $writer->write('echo %modify(call_user_func($this->filters->translate, %node.word, %node.args))');
                 }
 
             } else {
@@ -84,7 +105,6 @@ class TranslateMacros extends MacroSet
     }
 
 
-
     /**
      * @param MacroNode $node
      * @param PhpWriter $writer
@@ -100,7 +120,6 @@ class TranslateMacros extends MacroSet
     }
 
 
-
     /**
      * @param MacroNode $node
      * @param PhpWriter $writer
@@ -111,7 +130,6 @@ class TranslateMacros extends MacroSet
             return $writer->write('$_translator->unregister($template);');
         }
     }
-
 
 
     private function containsOnlyOneWord(MacroNode $node)
