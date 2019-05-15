@@ -115,41 +115,63 @@ class Translator extends BaseTranslator implements ITranslator
 	 *
 	 * @return string
 	 */
-	public function translate($message, $count = NULL, $parameters = array(), $domain = NULL, $locale = NULL)
-	{
-		if ($message instanceof Phrase) {
-			return $message->translate($this);
-		}
+    public function translate($message, $count = NULL, $parameters = array(), $domain = NULL, $locale = NULL)
+    {
 
-		if (is_array($count)) {
-			$locale = $domain ?: NULL;
-			$domain = $parameters ?: NULL;
-			$parameters = $count;
-			$count = NULL;
-		}
+        if (static::$translateMode) {
+            $html = \Nette\Utils\Html::el('translateplugin');
+            $html->addAttributes([
+                'class' => 'translate-plugin',
+                'data-key' => $message,
+            ]);
+        }
 
-		if (empty($message)) {
-			return $message;
+        if ($message instanceof Phrase) {
 
-		} elseif ($message instanceof Nette\Utils\Html) {
-			if ($this->panel) {
-				$this->panel->markUntranslated($message);
-			}
-			return $message; // todo: what now?
-		}
+            if (static::$translateMode) {
+                $html->setText($message->translate($this));
+                return $html;
+            }
+            return $message->translate($this);
+        }
 
-		$tmp = array();
-		foreach ($parameters as $key => $val) {
-			$tmp['%' . trim($key, '%') . '%'] = $val;
-		}
-		$parameters = $tmp;
+        if (is_array($count)) {
+            $locale = $domain ?: NULL;
+            $domain = $parameters ?: NULL;
+            $parameters = $count;
+            $count = NULL;
+        }
 
-		if ($count !== NULL && is_scalar($count)) {
-			return $this->transChoice($message, $count, $parameters + array('%count%' => $count), $domain, $locale);
-		}
+        if (empty($message)) {
+            return $message;
 
-		return $this->trans($message, $parameters, $domain, $locale);
-	}
+        } elseif ($message instanceof Nette\Utils\Html) {
+            if ($this->panel) {
+                $this->panel->markUntranslated($message);
+            }
+            return $message; // todo: what now?
+        }
+
+        $tmp = array();
+        foreach ($parameters as $key => $val) {
+            $tmp['%' . trim($key, '%') . '%'] = $val;
+        }
+        $parameters = $tmp;
+
+        if ($count !== NULL && is_scalar($count)) {
+            if (static::$translateMode) {
+                $html->setText($this->transChoice($message, $count, $parameters + array('%count%' => $count), $domain, $locale));
+                return $html;
+            }
+            return $this->transChoice($message, $count, $parameters + array('%count%' => $count), $domain, $locale);
+        }
+
+        if (static::$translateMode) {
+            $html->setText($this->trans($message, $parameters, $domain, $locale));
+            return $html;
+        }
+        return $this->trans($message, $parameters, $domain, $locale);
+    }
 
 
 
